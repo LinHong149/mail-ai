@@ -12,6 +12,7 @@ def updateInfoSheet():
         # Step 4: Using csv.writer to write the list to the CSV file
         writer = csv.writer(file)
         for key in contactInfo.keys():
+            contactInfo[key] = list(set(contactInfo[key]))
             if len(contactInfo[key]):
                 writer.writerow([key, contactInfo[key][0]])
                 for value in range(1, len(contactInfo[key])):
@@ -23,42 +24,63 @@ def findContactInfo(companyName, companyLink):
     domain_endings_pattern = '|'.join(domain_endings)
     email_pattern = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:" + domain_endings_pattern + r")"
     URL = companyLink
-    response = requests.get(URL)
-    response.encoding = "utf-8"
+    try:
+        print("before getting request")
+        response = requests.get(URL, timeout=10)
+        print("after getting request")
+        response.encoding = "utf-8"
 
-    soup = BeautifulSoup(response.content, "html.parser")
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, "html.parser")
 
-    inContactPage = False
+            inContactPage = False
 
-    contactInfo[companyName] = []
-    # print(response.url)
-    print("Searching for contact info")
-    for a_tag in soup.findAll("a"):
-        link = a_tag.get("href")
-        if link is not None:
-            if "https://www.instagram.com/" in link:
-                if link.endswith("/"):
-                    link = link[:-1]
-                contactInfo[companyName].append("Insta @" + str(link.replace("https://www.instagram.com/", "")))
-                print("Insta @" + str(link.replace("https://www.instagram.com/", "")))
+            contactInfo[companyName] = []
+            # print(response.url)
+            print("Searching for contact info")
+
+            for a_tag in soup.findAll("a"):
+                link = a_tag.get("href")
+                # print(link)
+                if link is not None:
+                    if "https://www.instagram.com/" in link:
+                        if link.endswith("/"):
+                            link = link[:-1]
+                        contactInfo[companyName].append("Insta @" + str(link.replace("https://www.instagram.com/", "")))
+                        print("Insta @" + str(link.replace("https://www.instagram.com/", "")))
 
 
-            if inContactPage == False and "contact" in link:
-                inContactPage = True
-                URL = urljoin(URL, link)
-                # print(URL)
+                    if inContactPage == False and "contact" in link:
+                        inContactPage = True
+                        URL = urljoin(URL, link)
+                        # print(URL)
 
-                response = requests.get(URL)
-                if "Form" in response.text or "form" in response.text:
-                    contactInfo[companyName].append("Form " + URL)
-                    print("Form " + URL)
-                
-                # print(response.text)
-                if "@" in response.text:
-                    emails = re.findall(email_pattern, response.text)
-                    for email in emails:
-                        contactInfo[companyName].append("Email " + email)
-                        print("Email " + email)
+                        response = requests.get(URL)
+                        if "Form" in response.text or "form" in response.text:
+                            contactInfo[companyName].append(URL)
+                            print("Form " + URL)
+                        
+                        # print(response.text)
+                        if "@" in response.text:
+                            emails = re.findall(email_pattern, response.text)
+                            for email in emails:
+                                contactInfo[companyName].append(email)
+                                print("Email " + email)
+        
+        else:
+            print("Webscraper unable to access website")
+
+        print("finished finding contact info")
+        
+    except requests.exceptions.ConnectTimeout:
+        print(f"Connection to {URL} timed out.")
+        contactInfo[companyName] = []
+    except requests.exceptions.ConnectionError as e:
+        contactInfo[companyName] = []
+        print(f"Connection error occurred (invalid link): {e}")
+    except requests.exceptions.ReadTimeout:
+        contactInfo[companyName] = []
+        print(f"Read timeout occurred for {URL}")   
 
 def search_yahoo(query):
     headers = {
@@ -81,20 +103,29 @@ def search_yahoo(query):
             end_index = yahoo_url.find(ending)
             if end_index != -1:
                 # Extract up to the domain ending and add it back
-                yahoo_url = "https://" + yahoo_url[:end_index + len(ending)]
+                if yahoo_url.startswith("https://www."):
+                    yahoo_url = yahoo_url[:end_index + len(ending)]
+                elif yahoo_url.startswith("www."):
+                    yahoo_url = "https://" + yahoo_url[:end_index + len(ending)]
+                else:
+                    yahoo_url = "https://www." + yahoo_url[:end_index + len(ending)]
                 domainPassed = True
                 break
                 
         if domainPassed == False:
-            contactInfo[query] = ["Unsupported domain"]
+            contactInfo[query] = []
+            print("domain not passed")
         elif yahoo_url != 'No Title':
-            print(yahoo_url)
+            print("main website url", yahoo_url)
             findContactInfo(query, yahoo_url)
 
+
 search_query = input()
-while search_query != "END" and  search_query != "End" and  search_query != "end":
-    search_yahoo(search_query)
+while search_query != "END" and  search_query != "End" and search_query != "end":
+    if search_query != "":
+        search_yahoo(search_query)
     search_query = input()
+    
 
 # findContactInfo("bb", "https://www.burnbraefarms.com")
 print(contactInfo)

@@ -44,23 +44,23 @@ def findContactInfo(companyName, companyLink):
         
     except requests.exceptions.ConnectTimeout:
         contactInfo[companyName] = []
-        print(f"Connection to {URL} timed out.")
+        print(companyName, f"Connection to {URL} timed out.")
         return
     except requests.exceptions.ConnectionError as e:
         contactInfo[companyName] = []
-        print(f"Connection error occurred (invalid link): {e}")
+        print(companyName, f"Connection error occurred (invalid link): {e}")
         return
     except requests.exceptions.ReadTimeout:
         contactInfo[companyName] = []
-        print(f"Read timeout occurred for {URL}")   
+        print(companyName, f"Read timeout occurred for {URL}")   
         return
     except requests.exceptions.TooManyRedirects:
         contactInfo[companyName] = []
-        print(f"Too many redirects occurred for {URL}")
+        print(companyName, f"Too many redirects occurred for {URL}")
         return
     except requests.exceptions.RequestException as e:
         contactInfo[companyName] = []
-        print(f"Request exception for {URL}: {e}")
+        print(companyName, f"Request exception for {URL}: {e}")
         contactInfo[companyName] = ["Request exception"]
         return
 
@@ -74,17 +74,16 @@ def findContactInfo(companyName, companyLink):
 
         contactInfo[companyName] = []
         # print(response.url)
-        print("Searching for contact info")
+        # print("Searching for contact info")
 
         for a_tag in soup.findAll("a"):
             link = a_tag.get("href")
-            # print(link)
             if link is not None:
                 if "https://www.instagram.com/" in link:
                     if link.endswith("/"):
                         link = link[:-1]
                     contactInfo[companyName].append("Insta @" + str(link.replace("https://www.instagram.com/", "")))
-                    print("Insta @" + str(link.replace("https://www.instagram.com/", "")))
+                    # print("Insta @" + str(link.replace("https://www.instagram.com/", "")))
 
 
                 if inContactPage == False and "contact" in link:
@@ -95,20 +94,20 @@ def findContactInfo(companyName, companyLink):
                     response = requests.get(URL)
                     if "Form" in response.text or "form" in response.text:
                         contactInfo[companyName].append(URL)
-                        print("Form " + URL)
+                        # print("Form " + URL)
                     
                     # print(response.text)
                     if "@" in response.text:
                         emails = re.findall(email_pattern, response.text)
                         for email in emails:
                             contactInfo[companyName].append(email)
-                            print("Email " + email)
+                            # print("Email " + email)
     
     else:
         contactInfo[companyName] = []
-        print("Webscraper unable to access website")
+        print(companyName, "Webscraper unable to access website")
 
-    print("finished finding contact info")
+    # print("finished finding contact info")
 
 def search_yahoo(query):
     headers = {
@@ -129,12 +128,12 @@ def search_yahoo(query):
             yahoo_url = result.find('span').text if result.find('span') else 'No Title'
         except:
             contactInfo[query] = []
-            print("unable to scrape link from yahoo")
+            print(query, "unable to scrape link from yahoo")
             return
 
         if "instagram" in yahoo_url or "youtube" in yahoo_url or "wikipedia" in yahoo_url or "linkedin" in yahoo_url or "snapchat" in yahoo_url or "facebook" in yahoo_url or "reddit" in yahoo_url or "yahoo" in yahoo_url:
             contactInfo[query] = []
-            print("not their website")
+            print(query, "found incorrect website")
             return
         
         if " " in yahoo_url:
@@ -155,9 +154,9 @@ def search_yahoo(query):
                 
         if domainPassed == False:
             contactInfo[query] = []
-            print("domain not passed")
+            print(query, "domain not passed")
         elif yahoo_url != 'No Title':
-            print(query, "website url", yahoo_url)
+            # print(query, "website url", yahoo_url)
             findContactInfo(query, yahoo_url)
 
 company_list = []
@@ -170,7 +169,7 @@ while True:
         for i in company_list:
             search_yahoo(i)
         
-        print(contactInfo)
+        # print(contactInfo)
         updateInfoSheet()   
         sys.exit()
         

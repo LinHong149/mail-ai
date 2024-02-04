@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "running code"
 # Check if Python is installed
 if ! command -v python3 &> /dev/null
 then 

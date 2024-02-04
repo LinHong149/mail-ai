@@ -161,6 +161,8 @@ def search_yahoo(query):
 
 company_list = []
 
+print("running scraper...")
+
 while True:
     company = input()
     if company == "END" or company == "end" or company == "End":

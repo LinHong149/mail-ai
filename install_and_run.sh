@@ -8,8 +8,7 @@ then
     exit
 fi
 
-
-curl -sSL -o scraper.py "https://raw.githubusercontent.com/LinHong149/mail-ai/main/your_script.py"
+curl -sSL -o scraper.py "https://raw.githubusercontent.com/LinHong149/mail-ai/main/scraper.py"
 
 pip3 install requests beautifulsoup4
 

@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
 import requests
 import re
 import sys
+
+import webbrowser
+import os
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse, parse_qs, unquote
 import csv
@@ -22,6 +26,8 @@ def updateInfoSheet():
                     writer.writerow(["", contactInfo[key][value]])
             else:
                 writer.writerow([key])
+    
+    webbrowser.open("file://" + os.path.realpath("companyInfoSheet.csv"))
 
 def findContactInfo(companyName, companyLink):
     domain_endings_pattern = '|'.join(domain_endings)
@@ -167,14 +173,3 @@ while True:
         
     if company != "":
         company_list.append(company)
-
-
-# company = input()
-# while company != "END" and  company != "End" and company != "end":
-#     if company != "":
-#         search_yahoo(company)
-#     company = input()
-
-    
-
-# findContactInfo("bb", "https://www.burnbraefarms.com")

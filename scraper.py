@@ -105,6 +105,7 @@ def findContactInfo(companyName, companyLink):
                             print("Email " + email)
     
     else:
+        contactInfo[companyName] = []
         print("Webscraper unable to access website")
 
     print("finished finding contact info")

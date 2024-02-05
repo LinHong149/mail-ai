@@ -6,9 +6,8 @@ Contact Harvester automates the extraction of contact details from company websi
 
 ## Features
 - Automated scraping of emails, website forms, and social media links from websites.
-- Outputs collected data into an organized CSV file for easy analysis.
-- Supports a wide range of domains with high accuracy.
-- Simple installation and execution, requiring minimal user input.
+- Outputs collected data into an organized CSV file.
+- Simple installation and execution.
 
 
 ## Installation
@@ -19,13 +18,13 @@ bash <(curl -sSL https://raw.githubusercontent.com/LinHong149/robeartics-contact
 
 
 ## Usage
-After the successful installation of Contact Harvester, the tool will scrape for contact information from the provided list of companies. The extracted data, including email addresses, website forms, and social media profiles, will be saved into a CSV file named `companyInfoSheet.csv` in the current working directory.
+After the installation, Contact Harvester will scrape for contact information from the provided list of companies. The extracted data will be saved into a CSV file named `companyInfoSheet.csv`.
 
 
 ## Requirements
-- **Python**: Requires version 3.6 or later for full compatibility with the script's dependencies and features.
-- **Libraries**: Essential libraries such as `requests` for handling HTTP requests and `beautifulsoup4` for parsing HTML are necessary. These will be automatically installed by the installation script if not present.
-- **Internet Connection**: A stable internet connection is needed to download necessary dependencies, access target websites for data scraping, and receive script updates.
+- **Python**: Requires Python 3.6 or later.
+- **Libraries**: Libraries such as `requests` and `beautifulsoup4` are necessary. These will be automatically installed by the installation script if not present.
+- **Internet Connection**: A stable internet connection is needed.
 
 
 ## Disclaimer

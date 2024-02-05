@@ -15,12 +15,11 @@ echo "█╔══█╗ █║   █║ █╔══█╗ █╔═╝   █�
 echo "█║  █║ ╚████╔╝ ████╔╝ █████╗ █║  █║ █║  █║  █║   █║ ╚████╗ █████║"
 echo "╚╝  ╚╝  ╚═══╝  ╚═══╝  ╚════╝ ╚╝  ╚╝ ╚╝  ╚╝  ╚╝   ╚╝  ╚═══╝ ╚════╝"
 echo 
-
 echo " _                                                         "
 echo "/   _  ._ _|_  _.  _ _|_    |_|  _. ._    _   _ _|_  _  ._"
 echo "\_ (_) | | |_ (_| (_  |_    | | (_| | \/ (/_ _>  |_ (/_ | "
 
-curl -sSL -o scraper.py "https://raw.githubusercontent.com/LinHong149/mail-ai/main/scraper.py"
+curl -sSL -o scraper.py "https://raw.githubusercontent.com/LinHong149/robeartics-contact-harvester/main/scraper.py"
 
 pip3 install requests beautifulsoup4
 

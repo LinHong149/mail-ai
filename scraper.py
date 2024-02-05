@@ -167,9 +167,9 @@ while True:
     company = input()
     if company == "END" or company == "end" or company == "End":
         for i in company_list:
+            print("Searching", i + "...")
             search_yahoo(i)
         
-        # print(contactInfo)
         updateInfoSheet()   
         sys.exit()
         

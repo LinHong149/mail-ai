@@ -161,7 +161,7 @@ def search_yahoo(query):
 
 company_list = []
 
-print("running scraper...")
+print("Enter your list of companies (one per line), then terminate by typing \"end\"")
 
 while True:
     company = input()

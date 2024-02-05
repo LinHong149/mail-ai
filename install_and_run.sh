@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if Python is installed
-if ! command -v python3 &> /dev/null
+if ! command -v python3 1> /dev/null
 then 
     echo "Python 3 is not installed. Please install Python 3 to continue."
     exit

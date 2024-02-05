@@ -7,6 +7,15 @@ then
     exit
 fi
 
+echo 
+echo ████╗   ████╗  ████╗  █████╗  ███╗  ████╗ █████╗ █╗  ████╗ █████╗
+echo █╔══█╗ █╔═══█╗ █╔══█╗ █╔═══╝ █╔══█╗ █╔══█╗╚═█╔═╝ █║ █╔═══╝ █╔═══╝
+echo ████╔╝ █║   █║ ████╔╝ ███╗   █████║ ████╔╝  █║   █║ █║     █████╗
+echo █╔══█╗ █║   █║ █╔══█╗ █╔═╝   █╔══█║ █╔══█╗  █║   █║ █║     ╚═══█║
+echo █║  █║ ╚████╔╝ ████╔╝ █████╗ █║  █║ █║  █║  █║   █║ ╚████╗ █████║
+echo ╚╝  ╚╝  ╚═══╝  ╚═══╝  ╚════╝ ╚╝  ╚╝ ╚╝  ╚╝  ╚╝   ╚╝  ╚═══╝ ╚════╝
+echo 
+
 curl -sSL -o scraper.py "https://raw.githubusercontent.com/LinHong149/mail-ai/main/scraper.py"
 
 pip3 install requests beautifulsoup4
